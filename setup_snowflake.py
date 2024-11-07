@@ -2,7 +2,7 @@ import random
 import string
 
 """
-This code creates a sql template file (structure_sql_output.sql) that setups snowflake initial structure.
+This code creates a sql template file (structure_sql_output.sql) that you can run in order to setup snowflake initial structure.
 The placeholder lists hold names for- databases, schemas, warehouses and roles to create. 
 
 Some specific setups are defined under structure_sql_template.sql:
