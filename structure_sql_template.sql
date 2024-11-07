@@ -60,6 +60,7 @@ GRANT ROLE analytics_prod_dwh_read TO ROLE data_engineer;
 GRANT ROLE analytics_prod_dwh_write TO ROLE data_engineer;
 GRANT ROLE analytics_prod_stg_read TO ROLE data_engineer;
 GRANT ROLE analytics_prod_stg_write TO ROLE data_engineer;
+GRANT ROLE raw_prod_read TO ROLE data_engineer;
 CREATE ROLE IF NOT EXISTS data_analyst;
 GRANT ROLE analytics_dev_read TO ROLE data_analyst;
 GRANT ROLE analytics_prod_dwh_read TO ROLE data_analyst;
@@ -68,10 +69,7 @@ CREATE ROLE IF NOT EXISTS data_user;
 GRANT ROLE analytics_prod_dwh_read TO ROLE data_user;
 GRANT ROLE data_user TO ROLE data_engineer;
 GRANT ROLE data_user TO ROLE data_analyst;
-CREATE ROLE IF NOT EXISTS dbt_user;
-GRANT ROLE analytics_dev_read TO ROLE dbt_user;
-GRANT ROLE analytics_dev_write TO ROLE dbt_user;
-GRANT ROLE raw_prod_read TO ROLE dbt_user;
+
 
 -- Creating users with random passwords and MFA configuration
 CREATE USER rivery PASSWORD = '{rivery_password}' DEFAULT_ROLE = ingestion_tool DEFAULT_WAREHOUSE = wh_ingestion;
