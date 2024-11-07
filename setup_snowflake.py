@@ -1,6 +1,18 @@
 import random
 import string
 
+"""
+This code creates a sql template file (structure_sql_output.sql) that setups snowflake initial structure.
+The placeholder lists hold names for- databases, schemas, warehouses and roles to create. 
+
+Some specific setups are defined under structure_sql_template.sql:
+* Creating profile roles with specific access permissions
+* Creating schemas: dwh, stg for databases analytics_prod and analytics_dev
+* Granting warehouse access
+* Creating users with random passwords and MFA configuration (for users - rivery, dbt)
+
+ 
+"""
 # Placeholder lists
 databases = ["raw_prod", "analytics_prod", "analytics_dev"]
 schemas = [
@@ -47,29 +59,30 @@ grant_sysadmin_statements = "\n".join([f"GRANT ROLE {role} TO ROLE sysadmin;" fo
 # Generate random passwords for each user
 passwords = {
     "rivery_password": generate_random_password(),
-    "dbt_password": generate_random_password(),
-    "data_engineer_password": generate_random_password(),
-    "data_analyst_password": generate_random_password(),
-    "data_user_password": generate_random_password()
+    "dbt_password": generate_random_password()
+    # "data_engineer_password": generate_random_password(),
+    # "data_analyst_password": generate_random_password(),
+    # "data_user_password": generate_random_password()
 }
 
+if __name__ == "__main__":
 # Read the template and replace placeholders
-with open('structure_sql_template.sql', 'r') as file:
-    sql_template = file.read()
+    with open('structure_sql_template.sql', 'r') as file:
+        sql_template = file.read()
 
-# Format the SQL script with placeholders
-sql_script = sql_template.format(
-    database_creation=database_creation_statements,
-    schema_creation=schema_creation_statements,
-    warehouse_creation=warehouse_creation_statements,
-    role_creation=role_creation_statements,
-    grants_statement=grants_statements,
-    grant_sysadmin_statements=grant_sysadmin_statements,
-    **passwords
-)
+    # Format the SQL script with placeholders
+    sql_script = sql_template.format(
+        database_creation=database_creation_statements,
+        schema_creation=schema_creation_statements,
+        warehouse_creation=warehouse_creation_statements,
+        role_creation=role_creation_statements,
+        grants_statement=grants_statements,
+        grant_sysadmin_statements=grant_sysadmin_statements,
+        **passwords
+    )
 
-# Write the generated SQL script to a file
-with open("structure_sql_output.sql", "w") as f:
-    f.write(sql_script)
+    # Write the generated SQL script to a file
+    with open("structure_sql_output.sql", "w") as f:
+        f.write(sql_script)
 
-print("SQL script generated and saved to structure_sql_output.sql")
+    print("SQL script generated and saved to structure_sql_output.sql")
