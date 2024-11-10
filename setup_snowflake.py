@@ -53,15 +53,24 @@ grants_statements = """GRANT CREATE SCHEMA, MONITOR, USAGE on database raw_prod 
 GRANT ALL on all SCHEMAS IN DATABASE raw_prod to ROLE raw_prod_write;
 GRANT ALL on ALL TABLES IN DATABASE raw_prod to ROLE raw_prod_write;
 GRANT SELECT ON FUTURE TABLES IN DATABASE raw_prod TO raw_prod_read;
+GRANT USAGE on all SCHEMAS IN DATABASE raw_prod to ROLE raw_prod_read;
+GRANT USAGE on all SCHEMAS IN DATABASE raw_prod to ROLE raw_prod_write;
 
 GRANT  USAGE on database analytics_prod to ROLE analytics_prod_dwh_read;
 GRANT  USAGE on database analytics_prod to ROLE analytics_prod_dwh_write;
+GRANT USAGE on all SCHEMAS IN DATABASE analytics_prod to ROLE analytics_prod_dwh_read;
+GRANT USAGE on all SCHEMAS IN DATABASE analytics_prod to ROLE analytics_prod_dwh_write;
+
+
 GRANT SELECT ON FUTURE TABLES IN DATABASE analytics_prod TO ROLE analytics_prod_dwh_read;
 GRANT ALL on all SCHEMAS IN DATABASE analytics_prod to ROLE analytics_prod_dwh_write;
 GRANT ALL on ALL TABLES IN DATABASE analytics_prod to ROLE analytics_prod_dwh_write;
 
 GRANT  USAGE on database analytics_prod to ROLE analytics_prod_stg_read;
 GRANT  USAGE on database analytics_prod to ROLE analytics_prod_stg_write;
+GRANT USAGE on all SCHEMAS IN DATABASE analytics_prod to ROLE analytics_prod_stg_read;
+GRANT USAGE on all SCHEMAS IN DATABASE analytics_prod to ROLE analytics_prod_stg_write;
+
 GRANT SELECT ON FUTURE TABLES IN DATABASE analytics_prod TO ROLE analytics_prod_stg_read;
 GRANT ALL on all SCHEMAS IN DATABASE analytics_prod to ROLE analytics_prod_stg_write;
 GRANT ALL on ALL TABLES IN DATABASE analytics_prod to ROLE analytics_prod_stg_write;
