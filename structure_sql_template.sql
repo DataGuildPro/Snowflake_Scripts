@@ -20,13 +20,13 @@ USE DATABASE analytics_dev;
 CREATE SCHEMA IF NOT EXISTS stg;
 CREATE SCHEMA IF NOT EXISTS dwh;
 
--- 3. Warehouses Setup
+-- 2. Warehouses Setup
 {warehouse_creation}
 
 -- Switch to SECURITYADMIN role for granting permissions to roles
 USE ROLE SECURITYADMIN;
 
--- 2. Roles Setup
+-- 3. Roles Setup
 {role_creation}
 
 -- Granting roles to schemas and future tables
@@ -46,25 +46,22 @@ GRANT ALL PRIVILEGES ON WAREHOUSE wh_data_team TO ROLE securityadmin;
 
 -- Creating profile roles with specific access permissions
 CREATE ROLE IF NOT EXISTS ingestion_tool;
-GRANT ROLE raw_prod_read TO ROLE ingestion_tool;
-GRANT ROLE raw_prod_write TO ROLE ingestion_tool;
+GRANT ROLE raw_prod_read, raw_prod_write TO ROLE ingestion_tool;
+
 CREATE ROLE IF NOT EXISTS reporting_tool;
 GRANT ROLE analytics_prod_dwh_read TO ROLE reporting_tool;
+
 CREATE ROLE IF NOT EXISTS transformation_tool;
-GRANT ROLE analytics_prod_dwh_read TO ROLE transformation_tool;
-GRANT ROLE analytics_prod_dwh_write TO ROLE transformation_tool;
-GRANT ROLE analytics_prod_stg_read TO ROLE transformation_tool;
-GRANT ROLE analytics_prod_stg_write TO ROLE transformation_tool;
+GRANT ROLE analytics_prod_dwh_read, analytics_prod_dwh_write, analytics_prod_stg_read,analytics_prod_stg_write TO ROLE transformation_tool;
+
 CREATE ROLE IF NOT EXISTS data_engineer;
-GRANT ROLE analytics_prod_dwh_read TO ROLE data_engineer;
-GRANT ROLE analytics_prod_dwh_write TO ROLE data_engineer;
-GRANT ROLE analytics_prod_stg_read TO ROLE data_engineer;
-GRANT ROLE analytics_prod_stg_write TO ROLE data_engineer;
-GRANT ROLE raw_prod_read TO ROLE data_engineer;
+GRANT ROLE analytics_prod_dwh_read,analytics_prod_dwh_write,analytics_prod_stg_read,analytics_prod_stg_write,raw_prod_read,analytics_dev_write, analytics_dev_read  TO ROLE data_engineer;
+
+
 CREATE ROLE IF NOT EXISTS data_analyst;
-GRANT ROLE analytics_dev_read TO ROLE data_analyst;
-GRANT ROLE analytics_prod_dwh_read TO ROLE data_analyst;
-GRANT ROLE analytics_dev_write TO ROLE data_analyst;
+GRANT ROLE analytics_dev_read,analytics_prod_dwh_read,analytics_dev_write TO ROLE data_analyst;
+
+
 CREATE ROLE IF NOT EXISTS data_user;
 GRANT ROLE analytics_prod_dwh_read TO ROLE data_user;
 GRANT ROLE data_user TO ROLE data_engineer;

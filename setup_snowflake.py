@@ -46,22 +46,20 @@ warehouse_creation_statements = "\n".join(
      for warehouse in warehouses]
 )
 
+grant_roles = [("raw_prod","raw_prod_write"),("raw_prod","raw_prod_read")
+,("analytics_prod","analytics_prod_dwh_read"),("analytics_prod","analytics_prod_dwh_write"),
+("analytics_prod","analytics_prod_stg_read"),("analytics_prod","analytics_prod_stg_write")
+,("analytics_dev","analytics_dev_read"),("analytics_dev","analytics_dev_write")]
+
+grants_statements = "GRANT CREATE SCHEMA, MONITOR, USAGE on database raw_prod to ROLE raw_prod_write;" + "\n".join([f"GRANT USAGE ON DATABASE {db} TO ROLE {role};\n"
+                                        f"GRANT ALL on all SCHEMAS IN DATABASE {db} to ROLE {role};\n"
+                                        f"GRANT ALL on ALL TABLES IN DATABASE {db} to ROLE {role};\n"
+                                        f"GRANT ALL on ALL VIEWS IN DATABASE {db} to ROLE {role};\n"
+                                        f"GRANT SELECT ON FUTURE TABLES IN DATABASE {db} TO ROLE {role};\n" for db, role in grant_roles])
 # Generate role creation and grant statements
 role_creation_statements = "\n".join([f"CREATE ROLE IF NOT EXISTS {role};" for role in roles])
 
-grants_statements = """GRANT CREATE SCHEMA, MONITOR, USAGE on database raw_prod to ROLE raw_prod_write;
-GRANT ALL on all SCHEMAS IN DATABASE raw_prod to ROLE raw_prod_write;
-GRANT ALL on ALL TABLES IN DATABASE raw_prod to ROLE raw_prod_write;
-GRANT SELECT ON FUTURE TABLES IN DATABASE raw_prod TO raw_prod_read;
 
-GRANT SELECT ON FUTURE TABLES IN DATABASE analytics_prod TO ROLE analytics_prod_dwh_read;
-GRANT ALL on all SCHEMAS IN DATABASE analytics_prod to ROLE analytics_prod_dwh_write;
-GRANT ALL on ALL TABLES IN DATABASE analytics_prod to ROLE analytics_prod_dwh_write;
-
-GRANT SELECT ON FUTURE TABLES IN DATABASE analytics_prod TO ROLE analytics_prod_stg_read;
-GRANT ALL on all SCHEMAS IN DATABASE analytics_prod to ROLE analytics_prod_stg_write;
-GRANT ALL on ALL TABLES IN DATABASE analytics_prod to ROLE analytics_prod_stg_write;
-"""
 
 # Granting sysadmin access to all generated roles
 grant_sysadmin_statements = "\n".join([f"GRANT ROLE {role} TO ROLE sysadmin;" for role in roles])
