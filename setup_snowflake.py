@@ -14,7 +14,7 @@ Some specific setups are defined under structure_sql_template.sql:
  
 """
 # Placeholder lists
-databases = ["raw_prod", "analytics_prod", "analytics_dev"]
+databases = ["raw_prod", "analytics_prod", "analytics_dev","analytics_stg"]
 schemas = [
     "mysql", "stripe", "paypal", "shopify", "impact", "payoneer", "mongo", "mixpanel",
     "google_ads", "meta", "bing", "tiktok", "elastic_search", "ga4", "hubspot",
@@ -26,7 +26,8 @@ roles = [
     "raw_prod_read", "raw_prod_write", "analytics_dev_read", "analytics_dev_write",
     "analytics_prod_dwh_read", "analytics_prod_dwh_write", "analytics_prod_stg_read",
     "analytics_prod_stg_write", "ingestion_tool", "reporting_tool", "transformation_tool",
-    "data_engineer", "data_analyst", "data_user"
+    "data_engineer", "data_analyst", "data_user", "analytics_stg_dwh_read", "analytics_stg_dwh_write", "analytics_stg_stg_read",
+    "analytics_stg_stg_write",
 ]
 
 # Function to generate a random password
@@ -48,13 +49,19 @@ warehouse_creation_statements = "\n".join(
 
 grant_roles = [("raw_prod","raw_prod_write"),("raw_prod","raw_prod_read")
 ,("analytics_prod","analytics_prod_dwh_read"),("analytics_prod","analytics_prod_dwh_write"),
-("analytics_prod","analytics_prod_stg_read"),("analytics_prod","analytics_prod_stg_write")
-,("analytics_dev","analytics_dev_read"),("analytics_dev","analytics_dev_write")]
+("analytics_prod","analytics_prod_stg_read"),("analytics_prod","analytics_prod_stg_write"),
+("analytics_stg","analytics_stg_dwh_read"),("analytics_stg","analytics_stg_dwh_write"),
+("analytics_stg","analytics_stg_stg_read"),("analytics_stg","analytics_stg_stg_write"),
+("analytics_dev","analytics_dev_read"),("analytics_dev","analytics_dev_write")]
 
 grants_statements = "GRANT CREATE SCHEMA, MONITOR, USAGE on database raw_prod to ROLE raw_prod_write;" + "\n".join([f"GRANT USAGE ON DATABASE {db} TO ROLE {role};\n"
+                                        f"GRANT ALL on DATABASE IN DATABASE {db} to ROLE {role};\n"
                                         f"GRANT ALL on all SCHEMAS IN DATABASE {db} to ROLE {role};\n"
                                         f"GRANT ALL on ALL TABLES IN DATABASE {db} to ROLE {role};\n"
-                                        f"GRANT ALL on ALL VIEWS IN DATABASE {db} to ROLE {role};\n"
+                                        f"GRANT ALL on ALL VIEWS IN DATABASE {db} to ROLE {role};\n"                                 
+                                        f"GRANT ALL ON FUTURE SCHEMAS IN DATABASE {db} to ROLE {role};\n"
+                                        f"GRANT USAGE ON DATABASE {db} to ROLE {role};\n"
+                                        f"GRANT USAGE ON FUTURE SCHEMAS IN DATABASE {db} to ROLE {role};\n"                                                                   
                                         f"GRANT SELECT ON FUTURE TABLES IN DATABASE {db} TO ROLE {role};\n" for db, role in grant_roles])
 # Generate role creation and grant statements
 role_creation_statements = "\n".join([f"CREATE ROLE IF NOT EXISTS {role};" for role in roles])
