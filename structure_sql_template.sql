@@ -20,6 +20,11 @@ USE DATABASE analytics_dev;
 CREATE SCHEMA IF NOT EXISTS stg;
 CREATE SCHEMA IF NOT EXISTS dwh;
 
+CREATE DATABASE IF NOT EXISTS analytics_stg;
+USE DATABASE analytics_stg;
+CREATE SCHEMA IF NOT EXISTS stg;
+CREATE SCHEMA IF NOT EXISTS dwh;
+
 -- 2. Warehouses Setup
 {warehouse_creation}
 
@@ -53,9 +58,12 @@ GRANT ROLE analytics_prod_dwh_read TO ROLE reporting_tool;
 
 CREATE ROLE IF NOT EXISTS transformation_tool;
 GRANT ROLE analytics_prod_dwh_read, analytics_prod_dwh_write, analytics_prod_stg_read,analytics_prod_stg_write TO ROLE transformation_tool;
+GRANT ROLE analytics_stg_dwh_read, analytics_stg_dwh_write, analytics_stg_stg_read,analytics_stg_stg_write TO ROLE transformation_tool;
 
 CREATE ROLE IF NOT EXISTS data_engineer;
-GRANT ROLE analytics_prod_dwh_read,analytics_prod_dwh_write,analytics_prod_stg_read,analytics_prod_stg_write,raw_prod_read,analytics_dev_write, analytics_dev_read  TO ROLE data_engineer;
+GRANT ROLE analytics_prod_dwh_read,analytics_prod_dwh_write,analytics_prod_stg_read,analytics_prod_stg_write,raw_prod_read,analytics_dev_write, analytics_dev_read
+
+TO ROLE data_engineer;
 
 
 CREATE ROLE IF NOT EXISTS data_analyst;
@@ -76,13 +84,3 @@ GRANT ROLE ingestion_tool TO USER rivery;
 CREATE USER dbt PASSWORD = '{dbt_password}' DEFAULT_ROLE = transformation_tool DEFAULT_WAREHOUSE = wh_transformation;
 SELECT 'dbt' AS username, '{dbt_password}' AS password;
 GRANT ROLE transformation_tool TO USER dbt;
-
--- Additional user creation examples
--- CREATE USER data_engineer_user PASSWORD = '{data_engineer_password}' DEFAULT_ROLE = data_engineer DEFAULT_WAREHOUSE = wh_data_team MUST_CHANGE_PASSWORD = TRUE MFA_ENABLED = TRUE;
--- SELECT 'data_engineer_user' AS username, '{data_engineer_password}' AS password;
--- GRANT ROLE data_engineer TO USER data_engineer_user;
-
--- Security configurations (optional)
--- Uncomment to enforce stricter data security settings
--- ALTER ACCOUNT SET REQUIRE_STORAGE_INTEGRATION_FOR_STAGE_CREATION = TRUE;
--- ALTER ACCOUNT SET PREVENT_UNLOAD_TO_INLINE_URL = TRUE;
