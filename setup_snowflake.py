@@ -15,7 +15,7 @@ Some specific setups are defined under structure_sql_template.sql:
 """
 # Placeholder lists
 databases = ["raw_prod", "analytics_prod", "analytics_dev","analytics_stg"]
-schemas = [
+schemas = ["honest_fulphilment",
     "mysql", "stripe", "paypal", "shopify", "impact", "payoneer", "mongo", "mixpanel",
     "google_ads", "meta", "bing", "tiktok", "elastic_search", "ga4", "hubspot",
     "priority", "jira", "chargeflow", "connecteam", "userpilot", "trustpilot",
