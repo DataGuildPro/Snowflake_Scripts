@@ -67,7 +67,7 @@ TO ROLE data_engineer;
 
 
 CREATE ROLE IF NOT EXISTS data_analyst;
-GRANT ROLE analytics_dev_read,analytics_prod_dwh_read,analytics_dev_write TO ROLE data_analyst;
+GRANT ROLE analytics_dev_read,analytics_prod_dwh_read,analytics_dev_write, raw_prod_read TO ROLE data_analyst;
 
 
 CREATE ROLE IF NOT EXISTS data_user;
