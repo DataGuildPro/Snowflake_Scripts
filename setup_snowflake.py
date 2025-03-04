@@ -55,7 +55,7 @@ grant_roles = [("raw_prod","raw_prod_write"),("raw_prod","raw_prod_read")
 ("analytics_dev","analytics_dev_read"),("analytics_dev","analytics_dev_write")]
 
 grants_statements = "GRANT CREATE SCHEMA, MONITOR, USAGE on database raw_prod to ROLE raw_prod_write;" + "\n".join([f"GRANT USAGE ON DATABASE {db} TO ROLE {role};\n"
-                                        f"GRANT ALL on DATABASE IN DATABASE {db} to ROLE {role};\n"
+                                        f"GRANT ALL on DATABASE {db} to ROLE {role};\n"
                                         f"GRANT ALL on all SCHEMAS IN DATABASE {db} to ROLE {role};\n"
                                         f"GRANT ALL on ALL TABLES IN DATABASE {db} to ROLE {role};\n"
                                         f"GRANT ALL on ALL VIEWS IN DATABASE {db} to ROLE {role};\n"                                 
