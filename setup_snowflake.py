@@ -54,22 +54,22 @@ grant_roles = [("raw_prod","raw_prod_write"),("raw_prod","raw_prod_read")
 ("analytics_stg","analytics_stg_stg_read"),("analytics_stg","analytics_stg_stg_write"),
 ("analytics_dev","analytics_dev_read"),("analytics_dev","analytics_dev_write")]
 
-grant_write_roles = [("raw_prod","raw_prod_write_test")
-,("analytics_prod","analytics_prod_dwh_write_test"),
-("analytics_prod","analytics_prod_stg_write_test"),
-("analytics_stg","analytics_stg_dwh_write_test"),
-("analytics_stg","analytics_stg_stg_write_test"),
-("analytics_dev","analytics_dev_write_test")]
+grant_write_roles = [("raw_prod","raw_prod_write")
+,("analytics_prod","analytics_prod_dwh_write"),
+("analytics_prod","analytics_prod_stg_write"),
+("analytics_stg","analytics_stg_dwh_write"),
+("analytics_stg","analytics_stg_stg_write"),
+("analytics_dev","analytics_dev_write")]
 
-grant_read_roles = [("raw_prod","raw_prod_read_test")
-,("analytics_prod","analytics_prod_dwh_read_test"),
-("analytics_prod","analytics_prod_stg_read_test"),
-("analytics_stg","analytics_stg_dwh_read_test"),
-("analytics_stg","analytics_stg_stg_read_test"),
-("analytics_dev","analytics_dev_read_test")]
+grant_read_roles = [("raw_prod","raw_prod_read")
+,("analytics_prod","analytics_prod_dwh_read"),
+("analytics_prod","analytics_prod_stg_read"),
+("analytics_stg","analytics_stg_dwh_read"),
+("analytics_stg","analytics_stg_stg_read"),
+("analytics_dev","analytics_dev_read")]
 
 
-grant_write_statements = ("GRANT CREATE SCHEMA, MONITOR, USAGE on database raw_prod to ROLE raw_prod_write_test;" +
+grant_write_statements = ("GRANT CREATE SCHEMA, MONITOR, USAGE on database raw_prod to ROLE raw_prod_write;" +
                             "\n".join([f"GRANT USAGE ON DATABASE {db} TO ROLE {role};\n"
                                        f"GRANT USAGE ON ALL SCHEMAS IN DATABASE {db} TO ROLE {role};\n"
                                         f"GRANT USAGE ON FUTURE SCHEMAS IN DATABASE {db} to ROLE {role};\n"    
@@ -82,7 +82,7 @@ grant_write_statements = ("GRANT CREATE SCHEMA, MONITOR, USAGE on database raw_p
                                         f"GRANT ALL ON FUTURE VIEWS IN DATABASE {db} TO ROLE {role};\n"
                                        for db, role in grant_write_roles]))
 
-grant_read_statements = ("\n".join([f"GRANT USAGE ON DATABASE {db} TO ROLE {role};\n"
+grant_read_statements = (" \n".join([f"GRANT USAGE ON DATABASE {db} TO ROLE {role};\n"
                                         f"GRANT USAGE ON ALL SCHEMAS IN DATABASE {db} TO ROLE {role};\n"
                                         f"GRANT USAGE ON FUTURE SCHEMAS IN DATABASE {db} to ROLE {role};\n"    
                                         f"GRANT select on ALL TABLES IN DATABASE {db} to ROLE {role};\n"
