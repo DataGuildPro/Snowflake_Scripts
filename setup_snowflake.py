@@ -83,8 +83,8 @@ grant_write_statements = ("GRANT CREATE SCHEMA, MONITOR, USAGE on database raw_p
                                         f"GRANT ALL ON FUTURE VIEWS IN DATABASE {db} TO ROLE {role};\n"
                                        for db, role in grant_write_roles]))
 # for raw_prod_write - we want to give the privileges to a specific list of schemas
-# this is because there are cases where a schema in this db needs restricted access, therefor we don't want to automatically give write privileges to all schemas.
-# if there is such a case please add the role and schema (creation and privileges) specifically and don't add it to the list - raw_prod_schemas .
+# this is because there are cases where a schema in this db needs restricted access, therefore we don't want to automatically give write privileges to all schemas.
+# if there is such a case please add the role and schema (creation and privileges) explicitly and don't add it to the list - raw_prod_schemas .
 
 grant_raw_prod_write_statement = (f"GRANT USAGE ON FUTURE SCHEMAS IN DATABASE raw_prod to ROLE raw_prod_write;\n"
                                   + "\n".join(
