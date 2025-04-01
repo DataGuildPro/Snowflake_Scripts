@@ -89,8 +89,8 @@ grant_write_statements = ("GRANT CREATE SCHEMA, MONITOR, USAGE on database raw_p
 grant_raw_prod_write_statement = (f"GRANT USAGE ON FUTURE SCHEMAS IN DATABASE raw_prod to ROLE raw_prod_write;\n"
                                   + "\n".join(
                                 [f"GRANT USAGE ON SCHEMA raw_prod.{schema} TO ROLE raw_prod_read;\n"
-                                 f"GRANT ALL PRIVILEGES ON TABLES IN SCHEMA raw_prod.{schema} TO ROLE raw_prod_write;\n"
-                                 f"GRANT ALL PRIVILEGES ON VIEWS IN SCHEMA raw_prod.{schema} TO ROLE raw_prod_write;\n"
+                                 f"GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA raw_prod.{schema} TO ROLE raw_prod_write;\n"
+                                 f"GRANT ALL PRIVILEGES ON ALL VIEWS IN SCHEMA raw_prod.{schema} TO ROLE raw_prod_write;\n"
                                  f"GRANT ALL PRIVILEGES ON FUTURE TABLES IN SCHEMA raw_prod.{schema} TO ROLE raw_prod_write;\n"
                                  f"GRANT ALL PRIVILEGES ON FUTURE VIEWS IN SCHEMA raw_prod.{schema} TO ROLE raw_prod_write;\n"
                                  for schema in raw_prod_schemas]))
