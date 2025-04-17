@@ -76,6 +76,12 @@ GRANT ROLE data_user TO ROLE data_engineer;
 GRANT ROLE data_user TO ROLE data_analyst;
 
 
+CREATE ROLE IF NOT EXISTS snowflake_usage_read;
+USE ROLE ACCOUNTADMIN;
+GRANT IMPORTED PRIVILEGES ON DATABASE SNOWFLAKE TO ROLE SYSADMIN;
+GRANT IMPORTED PRIVILEGES ON DATABASE SNOWFLAKE TO ROLE snowflake_usage_read;
+GRANT ROLE snowflake_usage_read TO ROLE sysadmin;
+
 -- Creating users with random passwords and MFA configuration
 CREATE USER rivery PASSWORD = '{rivery_password}' DEFAULT_ROLE = ingestion_tool DEFAULT_WAREHOUSE = wh_ingestion;
 SELECT 'rivery' AS username, '{rivery_password}' AS password;
