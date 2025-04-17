@@ -75,7 +75,7 @@ GRANT ROLE analytics_prod_dwh_read TO ROLE data_user;
 GRANT ROLE data_user TO ROLE data_engineer;
 GRANT ROLE data_user TO ROLE data_analyst;
 
-
+-- this role is currently not assigned to a user- can be relevant to users such as tableau user
 CREATE ROLE IF NOT EXISTS snowflake_usage_read;
 USE ROLE ACCOUNTADMIN;
 GRANT IMPORTED PRIVILEGES ON DATABASE SNOWFLAKE TO ROLE SYSADMIN;
