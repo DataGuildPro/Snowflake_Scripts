@@ -61,8 +61,8 @@ GRANT ROLE analytics_prod_dwh_read, analytics_prod_dwh_write, analytics_prod_stg
 GRANT ROLE analytics_stg_dwh_read, analytics_stg_dwh_write, analytics_stg_stg_read,analytics_stg_stg_write TO ROLE transformation_tool;
 
 CREATE ROLE IF NOT EXISTS data_engineer;
-GRANT ROLE analytics_prod_dwh_read,analytics_prod_dwh_write,analytics_prod_stg_read,analytics_prod_stg_write,raw_prod_read,analytics_dev_write, analytics_dev_read
-,analytics_stg_dwh_read, analytics_stg_dwh_write, analytics_stg_stg_read,analytics_stg_stg_write
+GRANT ROLE analytics_prod_dwh_read,analytics_prod_stg_read,raw_prod_read,analytics_dev_write, analytics_dev_read
+,analytics_stg_dwh_read, analytics_stg_stg_read
 TO ROLE data_engineer;
 
 
